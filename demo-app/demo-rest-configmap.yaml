@@ -13,7 +13,7 @@ data:
           - key: "api.version"
             value: 1.0.0
           - key: "api.description"
-            value: 此Service用來進行會員資訊管理111.
+            value: 此Service用來進行會員資訊管理.
           - key: "api.contact.name"
             value: tom
           - key: "api.contact.email"

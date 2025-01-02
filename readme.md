@@ -57,8 +57,17 @@
   //驗證kubeconfig配置：使用kubectl檢查叢集連線是否正常
   kubectl get nodes
   ```
+### Step3. 安裝 `Kubernetes Operator`
+Reloader 是一個 Kubernetes Operator，可監控 ConfigMap 和 Secret 的變更並自動刷新依賴這些資源的 Pod。
+```
+  // 新增 Helm 倉庫
+  helm repo add stakater https://stakater.github.io/stakater-charts
 
-### Step3. 安裝 `Camel-k`
+  // 安裝reloader
+  helm install reloader stakater/reloader
+```
+
+### Step4. 安裝 `Camel-k`
 ```
 // 建立camel-k namespace
 kubectl create namespace camel-k
@@ -68,7 +77,7 @@ microk8s helm repo add camel-k https://apache.github.io/camel-k/charts/
 microk8s helm install camel-k camel-k/camel-k -n camel-k
 
 ```
-### Step4. 安裝 `Camel-k integrationPlatform`
+### Step5. 安裝 `Camel-k integrationPlatform`
 ```
 apiVersion: camel.apache.org/v1
 kind: IntegrationPlatform
@@ -155,6 +164,9 @@ spec:
     metadata:
       name: demo-rest-integration
       namespace: camel-k
+      # 開啟configmap刷新偵測
+      annotations:
+        reloader.stakater.com/auto: "true"
     spec:
       traits:
         container:

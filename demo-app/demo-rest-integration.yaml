@@ -3,6 +3,8 @@ kind: Integration
 metadata:
   name: demo-rest-integration
   namespace: camel-k
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   traits:
     container:
