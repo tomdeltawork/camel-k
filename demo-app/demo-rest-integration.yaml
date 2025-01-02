@@ -1,0 +1,27 @@
+apiVersion: camel.apache.org/v1
+kind: Integration
+metadata:
+  name: demo-rest-integration
+  namespace: camel-k
+spec:
+  traits:
+    container:
+      port: 8080 # container expose port
+      servicePort: 8080 # service expose port
+    service:
+      configuration:
+        nodePort: true
+        type: NodePort
+  sources:
+    - name: demo-rest.yaml
+      language: yaml
+      contentRef: demo-rest-configmap #對應到configmap
+      contentKey: demo-rest.yaml #對應到configmap內的key
+  #加入依賴
+  dependencies:
+    - camel:platform-http    # 支援 REST API 的 HTTP 服務
+    - camel:rest             # 支援 REST DSL
+    - camel:core             # Camel 核心路由功能
+    - camel:direct           # 支援 direct 路由端點
+    - camel:openapi-java     # 支援 OpenAPI 文件生成
+    - camel:jackson          # 支援 JSON 資料處理（可選）

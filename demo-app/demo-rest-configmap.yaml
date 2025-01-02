@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-rest-configmap
+  namespace: camel-k
+data:
+  demo-rest.yaml: |
+    - restConfiguration:
+        apiContextPath: api-docs
+        apiProperty:
+          - key: "api.title"
+            value: "會員資訊Api"
+          - key: "api.version"
+            value: 1.0.0
+          - key: "api.description"
+            value: 此Service用來進行會員資訊管理111.
+          - key: "api.contact.name"
+            value: tom
+          - key: "api.contact.email"
+            value: tom@example.com
+        componentProperty:
+          - key: exchangeCharset
+            value: UTF-8
+        component: platform-http
+        contextPath: /api
+        host: 0.0.0.0
+        port: "8080"
+
+    - rest:
+        id: rest-77ef
+        get:
+          - id: get-b449999
+            description: "此API用來查詢使用者資訊test"
+            param:
+              - description: ID of the user
+                dataType: string
+                name: userid
+                type: path
+            produces: application/json
+            to: direct:direct-query-user-data-test
+        path: /user/{userid}
+    
+    - route:
+        id: route-364277
+        from:
+          id: from-104388
+          uri: direct
+          parameters:
+            name: direct-query-user-data-test
+          steps:
+            - setBody:
+                simple: Hello Camel from ${header.userid}
