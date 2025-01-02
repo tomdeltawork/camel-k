@@ -61,10 +61,10 @@
 Reloader 是一個 Kubernetes Operator，可監控 ConfigMap 和 Secret 的變更並自動刷新依賴這些資源的 Pod。
 ```
   // 新增 Helm 倉庫
-  helm repo add stakater https://stakater.github.io/stakater-charts
+  microk8s helm repo add stakater https://stakater.github.io/stakater-charts
 
   // 安裝reloader
-  helm install reloader stakater/reloader
+  microk8s helm install reloader stakater/reloader
 ```
 
 ### Step4. 安裝 `Camel-k`
